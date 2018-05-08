@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+  <title>Brightly - An LED Code Editor</title>
+  <script src="blockly/blockly_compressed.js"></script>  <!-- Blockly requires includes -->
+  <script src="blockly/python_compressed.js"></script>
+  <script src="blockly/blocks_compressed.js"></script>
+  <script src="blockly/msg/js/en.js"></script>
+  <script src="block_defs_jscript.js"></script> <!-- Block definitions depend on DEF_NUM_LEDS -->  
+<!--  <script src="color_palette.js"></script> -->  <!-- Defines custom palette for color dropdowns -->
+  <script src="gen_stubs_python.js"></script>   <!-- Generated Python code depends on DEF_NUM_LEDS -->
+  <script src="cp/cp_imports.txt"></script>      <!-- Header code for generated python file -->
+  <script src="cp/cp_declarations.txt"></script> <!-- Header code for generated python file -->
+
+ 
+  
+  <style>
+    html, body {
+	  height: 100%;
+	  margin: 0;
+	}
+    body {
+      background-color: #fff;
+      font-family: sans-serif;
+	  overflow: hidden;
+    }
+    h1 {
+      font-weight: bold;
+      font-size: 140%;
+    }
+	table {
+      height: 100%;
+      width: 100%;
+    }
+    #blocklyArea {
+      height: 99%;
+    }
+	.lighttext {
+       font-size:80%
+	}
+	.bigheavy{
+	  text-align: center;
+	  font-weight: bold;
+      font-size: 200%;
+	}
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background-color: #ddd;
+	}
+
+	li {
+		float: left;
+		padding: 0px 15px;
+		display: block;
+		text-align: left;
+	}
+	
+	#logo {
+		padding-top: 5px;
+		padding-left: 2px;
+		padding-right: 20px;
+		hover:
+	}
+	
+	img {
+		padding-top: 5px;
+	}
+	
+	li a {
+		display: block;
+		color: white;
+		text-align: center;
+		text-decoration: none;
+	}
+
+	/* Change the link color on hover */
+	li:hover {
+		background-color: #ccc;
+	}
+	
+   /* Remove table border */
+   table { border-collapse:collapse }
+  </style>
+</head>
+<body>
+
+   <ul>
+	<li id="logo"><span class="bigheavy">
+	<span style='color: #ff3232'>B</span><span style='color: #ff8432'>R</span><span style='color: #ffee32'>I</span><span style='color: #05f8ff'>G</span><span style='color: #46e119'>H</span><span style='color: #328eff'>T</span><span style='color: #9217d3'>L</span><span style='color: #ff44c2'>Y</span>
+	</li>
+	<li> <span id="download" class="lighttext">
+		<span style='color: #b71daa; font-size:130%'>Download CircuitPython Code</span><img src="./images/arrow.png" height="30" id="downloadCodeImg"></span>
+	</li>
+	<li><span class="lighttext" style='color:#1d2fb7; font-size=110%'>Save Blocks to File:<input id="saveFileName" value="myblocks.xml" size=14/><button id="downloadBlocks">Save as XML</button><br>
+	  Read Blocks from File:<input id="loadFile" name="load" type="file" accept=".xml" size="22"/></span>
+	</li>
+	<li>
+     <span style='color:#f44295' font-size=120%><a href="http://www.brightwearables.com">Powered by:&nbsp;&nbsp;<img src="./images/logo_small.png" height=35></a> </span>
+	</li>
+   </ul>
+
+  <table>
+    <tr>
+      <td id="blocklyArea"> <!-- resizeable area over which blocklyDiv is overlaid -->
+      </td>
+    </tr>
+  </table>
+  
+  
+  <div id="blocklyDiv" style="position: absolute"></div> <!-- div where blockly gets injected -->
+  
+ <!-- begin myworkspace.xml -->
+<xml xmlns="http://www.w3.org/1999/xhtml" id="workspaceBlocks" style="display:none">
+  <variables></variables>
+  <block type="run_on_start" id="5CvAS;1lmZM1aL{c:g_(" x="13" y="12">
+  </block>
+  <block type="run_repeatedly" id="24y33Lz0II_Z)t7nfY1[" x="13" y="120"></block>
+</xml>
+<!-- end myworkspace.xml -->
+  
+<script>
+	function generateToolboxXML(nLeds) {
+		var toolbox = '<xml>\n';
+		toolbox += '  <category name="Colors/Patterns" colour="#a55b6d">\n';
+		toolbox += '    <block type="color_led">\n';
+		for (var i = 0; i < nLeds; i++) {
+			var fieldDef = '      <field name="C' + (i+1).toString() + '">' + defaultColorFromList(i) + '</field>\n';
+			toolbox += fieldDef;
+		}
+		toolbox += '   </block>\n';
+		toolbox += '    <block type="single_color_led">\n';
+		toolbox += '      <field name="C1">#ff0000</field>\n';
+		toolbox += '    </block>\n';
+		toolbox += '    <block type="color_wheel_value">\n';
+		toolbox += '     <field name="WHEEL_ANGLE">0</field>\n';
+		toolbox += '    </block>\n';
+		toolbox += '    <block type="random_color"></block>\n';
+		toolbox += '	<block type="rainbow_led"></block>\n';
+		toolbox += '    <block type="color_led_expanded"></block>\n';
+		toolbox += '    <block type="change_to">\n';
+		toolbox += '      <value name="COLOR_LIST">\n';
+		toolbox += '        <shadow type="single_color_led">\n';
+		toolbox += '          <field name="C1">#000000</field>\n';
+		toolbox += '        </shadow>\n';
+		toolbox += '      </value>\n';
+		toolbox += '    </block>\n';
+		toolbox += '    <block type="change_to">\n';
+		toolbox += '      <value name="COLOR_LIST">\n';
+		toolbox += '        <block type="color_led">\n';
+		for (var i = 0; i < nLeds; i++) {
+			var fieldDef = '      <field name="C' + (i+1).toString() + '">' + defaultColorFromList(i) + '</field>\n';
+			toolbox += fieldDef;
+		}
+		toolbox += '        </block>\n';
+		toolbox += '      </value>\n';
+		toolbox += '    </block>\n';
+		toolbox += '    <block type="change_to"></block>\n';
+		toolbox += '    <block type="set_led_at">\n';
+		toolbox += '      <field name="LED_INDEX">1</field>\n';
+		toolbox += '      <value name="COLOR_VALUE">\n';
+		toolbox += '        <shadow type="single_color_led">\n';
+		toolbox += '          <field name="C1">#ff0000</field>\n';
+		toolbox += '        </shadow>\n';
+		toolbox += '      </value>\n';
+		toolbox += '      <field name="NAME">SHOW_NOW</field>\n';
+		toolbox += '    </block>\n';
+		toolbox += '  </category>\n';
+		toolbox += '  <category name="Animations" colour="#a5a55b">\n';
+		toolbox += '    <block type="block_wait">\n';
+		toolbox += '      <field name="WAIT_SEC">0.5</field>\n';
+		toolbox += '   </block>\n';
+		toolbox += '    <block type="rotate_leds">\n';
+		toolbox += '      <field name="ROTATION_AMT">1</field>\n';
+		toolbox += '    </block>\n';
+		toolbox += '    <block type="shift_leds">\n';
+		toolbox += '      <field name="SHIFT_AMT">1</field>\n';
+		toolbox += '    </block>\n';
+		toolbox += '    <block type="smooth_change_to">\n';
+		toolbox += '      <field name="speed">SLOW</field>\n';
+		toolbox += '      <value name="COLOR_LIST">\n';
+		toolbox += '        <shadow type="color_led">\n';
+		for (var i = 0; i < nLeds; i++) {
+			var fieldDef = '      <field name="C' + (i+1).toString() + '">' + defaultColorFromList(i) + '</field>\n';
+			toolbox += fieldDef;
+		}
+		toolbox += '        </shadow>\n';
+		toolbox += '      </value>\n';
+		toolbox += '    </block>\n';
+		toolbox += '    <block type="wipe_color">\n';
+		toolbox += '      <field name="DIRECTION">LOW_TO_HIGH</field>\n';
+		toolbox += '      <field name="SPEED">SLOW</field>\n';
+		toolbox += '      <value name="COLOR_LIST">\n';
+		toolbox += '        <shadow type="single_color_led">\n';
+		toolbox += '          <field name="C1">#ff0000</field>\n';
+		toolbox += '        </shadow>\n';
+		toolbox += '      </value>\n';
+		toolbox += '    </block>\n';
+		toolbox += '    <block type="twinkle">\n';
+		toolbox += '      <field name="nleds">3</field>\n';
+		toolbox += '      <field name="nseconds">5</field>\n';
+		toolbox += '	  <value name="COLOR_LIST">\n';
+		toolbox += '	  <block type = "variable_color_list">\n';
+		toolbox += '	     <value name="ADD0">\n';
+		toolbox += '	       <block type="single_color_led">\n';
+		toolbox += '		     <field name="C1">#cc33cc</field>\n';
+		toolbox += '		   </block>\n';
+		toolbox += '		 </value>\n';
+		toolbox += '		 <value name="ADD1">\n';
+		toolbox += '		 <block type="single_color_led">\n';
+		toolbox += '		   <field name="C1">#33ccff</field>\n';
+		toolbox += '		 </block>\n';
+		toolbox += '		 </value>\n';
+		toolbox += '		 <value name="ADD2">\n';
+		toolbox += '		 <block type="single_color_led">\n';
+		toolbox += '		   <field name="C1">#ff9966</field>\n';
+		toolbox += '		 </block>\n';
+		toolbox += '		 </value>\n';
+		toolbox += '	  </block>\n';
+		toolbox += '	  </value>\n';
+		toolbox += '      <field name="">SLOW</field>\n';
+		toolbox += '    </block>\n';
+		toolbox += '	<block type="morse">';
+		toolbox += '      <field name="MORSE_TEXT">HELLO</field>';
+		toolbox += '      <field name="SPEED">SPEED_MEDIUM</field>';
+		toolbox += '      <value name="TEXT_COLOR">';
+		toolbox += '        <shadow type="single_color_led">';
+		toolbox += '          <field name="C1">#ff0000</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '    </block>';
+		toolbox += '  </category>';
+		toolbox += '  <category name="Loops" colour="#5ba55b">';
+		toolbox += '    <block type="controls_repeat_ext">';
+		toolbox += '      <value name="TIMES">';
+		toolbox += '        <shadow type="math_number">';
+		toolbox += '          <field name="NUM">10</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '    </block>';
+		toolbox += '    <block type="controls_for">';
+		toolbox += '      <field name="VAR" id="/;]tS=r!DeDO/g6Is/th" variabletype="">i</field>';
+		toolbox += '      <value name="FROM">';
+		toolbox += '        <shadow type="math_number">';
+		toolbox += '          <field name="NUM">1</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '      <value name="TO">';
+		toolbox += '        <shadow type="math_number">';
+		toolbox += '          <field name="NUM">10</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '      <value name="BY">';
+		toolbox += '        <shadow type="math_number">';
+		toolbox += '          <field name="NUM">1</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '    </block>';
+		toolbox += '  </category>';
+		toolbox += '  <category name="Logic" colour="#5b80a5">';
+		toolbox += '    <block type="controls_if"></block>';
+		toolbox += '    <block type="logic_compare">';
+		toolbox += '      <field name="OP">EQ</field>';
+		toolbox += '    </block>';
+		toolbox += '  </category>';
+		toolbox += '  <category name="Math" colour="#5b5ba5">';
+		toolbox += '    <block type="math_number">';
+		toolbox += '      <field name="NUM">0</field>';
+		toolbox += '    </block>';
+		toolbox += '    <block type="math_arithmetic">';
+		toolbox += '      <field name="OP">ADD</field>';
+		toolbox += '      <value name="A">';
+		toolbox += '        <shadow type="math_number">';
+		toolbox += '          <field name="NUM">1</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '      <value name="B">';
+		toolbox += '        <shadow type="math_number">';
+		toolbox += '          <field name="NUM">1</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '    </block>';
+		toolbox += '   <block type="math_random_int">';
+		toolbox += '      <value name="FROM">';
+		toolbox += '        <shadow type="math_number">';
+		toolbox += '          <field name="NUM">0</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '      <value name="TO">';
+		toolbox += '        <shadow type="math_number">';
+		toolbox += '          <field name="NUM">64</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '    </block>';
+		toolbox += '    <block type="math_modulo">';
+		toolbox += '      <value name="DIVIDEND">';
+		toolbox += '        <shadow type="math_number">';
+		toolbox += '          <field name="NUM">100</field>';
+		toolbox += '        </shadow>';
+		toolbox += '      </value>';
+		toolbox += '      <value name="DIVISOR">';
+		toolbox += '        <shadow type="math_number">';
+ 		toolbox += '         <field name="NUM">64</field>';
+ 		toolbox += '       </shadow>';
+		toolbox += '      </value>';
+		toolbox += '    </block>';
+		toolbox += '  </category>';
+		toolbox += '  <category name="Variables" colour="#a55b5b" custom="VARIABLE"></category>';
+		toolbox += '</xml>';	
+		
+		//console.log(toolbox);
+		return toolbox;
+	};
+  	
+  function uploadBlocks(evt) {
+    var file = evt.target.files[0];
+	
+	// Closure to capture the file information
+	var reader = new FileReader();
+	reader.onload = function(theFile) {
+	  //alert(reader.result);
+	  xml_text = reader.result;
+	  if (xml_text) {
+	    Blockly.mainWorkspace.clear();
+		var xml = Blockly.Xml.textToDom(xml_text);
+		Blockly.Xml.domToWorkspace(xml, workspace);
+	  }
+	};
+	reader.readAsText(file);
+  };
+  
+  function detectIE() {
+  var ua = window.navigator.userAgent;
+
+  // Test values; Uncomment to check result …
+
+  // IE 10
+  // ua = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)';
+  
+  // IE 11
+  // ua = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
+  
+  // Edge 12 (Spartan)
+  // ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0';
+  
+  // Edge 13
+  // ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586';
+
+  var msie = ua.indexOf('MSIE ');
+  if (msie > 0) {
+    // IE 10 or older => return version number
+    return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+  }
+
+  var trident = ua.indexOf('Trident/');
+  if (trident > 0) {
+    // IE 11 => return version number
+    var rv = ua.indexOf('rv:');
+    return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+  }
+
+  var edge = ua.indexOf('Edge/');
+  if (edge > 0) {
+    // Edge (IE 12+) => return version number
+    return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+  }
+
+  // other browser
+  return false;
+}
+  
+  // IE follows a different download protocol than other browsers
+  function ieDownloadToFile(filename, text) {
+	var blobObject = new Blob([text]); 
+
+    window.navigator.msSaveBlob(blobObject, filename); // The user only has the option of clicking the Save button.
+    //alert('File save request made using msSaveBlob() - note the single "Save" button below.');
+  };
+  
+  function downloadToFile(filename, text) {
+	var element = document.createElement('a');
+	element.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(text));
+	element.setAttribute('download',filename);
+	element.style.display = 'none';
+	document.body.appendChild(element);
+	element.click();
+	document.body.removeChild(element);
+  };
+  // Add event handlers from load inputs
+  document.getElementById('loadFile').addEventListener('change', uploadBlocks, false);
+
+  //document.getElementById('downloadBlocks').addEventListener('click', downloadBlocks);
+  
+  document.getElementById('downloadBlocks').addEventListener('click', function() {
+	var xml = Blockly.Xml.workspaceToDom(workspace);
+    var xml_text = Blockly.Xml.domToText(xml); 
+	var filename = document.getElementById('saveFileName').value;
+	if (detectIE()) {
+		ieDownloadToFile(filename, xml_text);
+	} else {
+		downloadToFile(filename, xml_text);
+	}
+  }, false);
+  
+  // Code generator
+  function generateCode(workspace) {   	
+    // Basic code generation
+	//Must initialize the workspace for code generation to work
+	var code = "";
+	var brightness = 20; // Default
+	var pin='D1'; 
+	Blockly.Python.init(workspace)
+
+	// need to make sure code in the "on start" block comes first
+    var topBlocks = workspace.getTopBlocks();
+	for (var i = 0; i < topBlocks.length; i++) {
+	  var bl = topBlocks[i];
+		  
+	  // Check to make sure we're not missing any blocks
+	  var children = bl.getChildren();
+	  for (var j = 0; j < children.length; j++) {
+	    if (!children[j].allInputsFilled()) {
+			alert("Some inputs are not specified.\nCode generation failure.");
+			return;
+		}
+	  }
+	  var blockCode = Blockly.Python.blockToCode(bl);
+	  if (bl.type === "run_on_start") {
+	    brightness = parseInt(bl.getFieldValue('BRIGHTNESS'));
+		pin = bl.getFieldValue('PIN');
+	    code = blockCode + code;
+	  } else {
+		code = code + blockCode;
+	  }
+	}
+
+	// Add imports and initializations
+	code = cp_imports + cp_declarations + code;
+	// Set brightness value and number of LEDS
+	code = setCodeValues(code, "%BRIGHTNESS%", brightness/100);
+	code = setCodeValues(code, "%NUMPIX%", DEF_NUM_LEDS);
+	code = setCodeValues(code, "%PIN%", pin);
+	
+	// Minimize code size by replacing repeated tuples with a variable stand-in
+	code = replaceTuples(code);
+	Blockly.Python.finish(code)
+		
+	// download the code
+	var fn = 'main.py';
+	if (detectIE()) {
+		ieDownloadToFile(fn, code);
+	} else {
+		downloadToFile(fn, code);
+	}
+  };
+  
+  document.getElementById('download').addEventListener('click', function() {
+	generateCode(workspace);
+  }, false);
+ 
+ document.getElementById('downloadCodeImg').addEventListener('click', function() {
+	generateCode(workspace);
+  }, false);
+  
+var toolbox = document.getElementById("toolbox");
+
+var options = { 
+	toolbox : toolbox, 
+	collapse : false, 
+	comments : false, 
+	disable : false, 
+	maxBlocks : Infinity, 
+	trashcan : true, 
+	horizontalLayout : false, 
+	toolboxPosition : 'start', 
+	css : true, 
+	media : 'https://blockly-demo.appspot.com/static/media/', 
+	rtl : false, 
+	scrollbars : true, 
+	sounds : true, 
+	oneBasedIndex : true
+};
+
+
+/* Inject your workspace - add code to handle resizing*/ 
+ // var workspace = Blockly.inject(blocklyDiv, options);  // for fixed workspace
+ var blocklyArea = document.getElementById('blocklyArea');
+ var blocklyDiv = document.getElementById('blocklyDiv');
+ var workspace = Blockly.inject(blocklyDiv, {toolbox: generateToolboxXML(DEF_NUM_LEDS)});
+ var onresize = function(e) {
+   // Compute the absolute coordinates and dimensions of blocklyArea
+   var element = blocklyArea;
+   var x = 0;
+   var y = 0;
+   do {
+     x += element.offsetLeft;
+	 y += element.offsetTop;
+	 element = element.offsetParent;
+   } while(element);
+   // Position blocklyDiv over blocklyArea.
+   blocklyDiv.style.left = x + 'px';
+   blocklyDiv.style.top = y + 'px';
+   blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+   blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+ };
+ window.addEventListener('resize', onresize, false);
+ onresize();
+ Blockly.svgResize(workspace);
+ /* Code for injecting and resizing ends here */
+ 
+ // Brighten up the code blocks a bit (default SAT = 0.45, VAL = 0.65) 
+ Blockly.HSV_SATURATION = 0.8; 
+ Blockly.HSV_VALUE = 0.8; 
+ 
+ // Disable solo blocks
+ workspace.addChangeListener(Blockly.Events.disableOrphans);
+
+/* Load Workspace Blocks from XML to workspace. Remove all code below if no blocks to load */
+
+/* TODO: Change workspace blocks XML ID if necessary. Can export workspace blocks XML from Workspace Factory. */
+var workspaceBlocks = document.getElementById("workspaceBlocks"); 
+
+/* Load blocks to workspace. */
+Blockly.Xml.domToWorkspace(workspace, workspaceBlocks);
+ 
+
+  </script>
+
+</body>
+</html>

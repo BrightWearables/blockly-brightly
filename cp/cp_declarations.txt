@@ -1,0 +1,6 @@
+let cp_declarations = `
+numpix = %NUMPIX%
+%TUPLE_LIST%
+strip = neopixel.NeoPixel(board.%PIN%, numpix, brightness=%BRIGHTNESS%, auto_write=False)
+brightly = brightly.Brightly(strip, numpix)
+`;
