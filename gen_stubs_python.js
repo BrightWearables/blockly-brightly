@@ -218,10 +218,6 @@ Blockly.Python['set_led_at'] = function(block) {
 };
 
 Blockly.Python['variable_color_list'] = function(block) {
-  /*alert("not written yet!");
-  var code = "";
-  return code;
-  */
   code = Blockly.Python['lists_create_with'](block);
   return code;
 };
@@ -231,12 +227,6 @@ Blockly.Python['rainbow_led'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['set_brightness'] = function(block) {
-  // var number_bright_val = block.getFieldValue('BRIGHT_VAL');
-  // We process the code from this block separately
-  var code = "";
-  return code;
-};
 
 Blockly.Python['rgb_color'] = function(block) {
   var number_r_val = block.getFieldValue('R_VAL');
@@ -267,4 +257,18 @@ Blockly.Python['morse'] = function(block) {
   }
   code += ")\n";
   return code;
+};
+
+Blockly.Python['variable_color_list'] = function(block) {
+  code = Blockly.Python['lists_create_with'](block);
+  return code;
+};
+
+Blockly.Python['repeat_pattern'] = function(block) {
+ 
+  // TODO: Assemble Python into code variable.
+  var color_list = Blockly.Python.valueToCode(block, 'PATTERN', Blockly.Python.ORDER_NONE);
+  var code = classPrefix + 'repeat_pattern(' + color_list + ')';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.Python.ORDER_NONE];
 };

@@ -1,4 +1,4 @@
-
+Blockly.FieldAngle.ROUND = 1;  // Disable rounding of wheel position
 var ledList = ["#ff0000", "#ff9900", "#ffff00", "#33ff33", "#66cccc", "#33ccff", "#6666cc", "#cc33cc"];
 function defaultColorFromList(index) {
 	var col;
@@ -55,6 +55,7 @@ function wheelColor(pos, hexFormat = true) {
 	return rVal;
 }
 
+
 // Handler for color wheel value change
 function onChangeWheelValue(event) {
 	if ((event.type === Blockly.Events.CHANGE) &&
@@ -99,6 +100,7 @@ function validateMorseText(txt) {
 	}
 };
 
+// Changes the fieldColors on the Rainbow display block
 function setFieldColors(block) {
 	var index = 1;			
 	var fn = "C" + index;
@@ -127,6 +129,37 @@ function onChangeRainbowWheelValues(event) {
 			block = workspace.getBlockById(event.blockId);
 			block.setFieldColors_();
 	}
+};
+
+function resetNumLEDs(newNum) {
+	defBlocksWithSize(DEF_NUM_LEDS);  //Regenerate block definitions
+	var workspaceBlocks = Blockly.Xml.textToDom(generateWorkspaceXML(DEF_NUM_LEDS));
+	Blockly.Xml.domToWorkspace(workspaceBlocks, workspace);
+	var xml = generateToolboxXML(DEF_NUM_LEDS);
+	workspace.updateToolbox(xml);
+}
+
+function validateNLEDs(txt) {
+	var newNum = parseInt(txt); 
+	if (newNum < 1 || newNum > MAX_NUM_LEDS) return null;
+	if (newNum != DEF_NUM_LEDS) {
+		var result = confirm("Are you sure you want the number of LEDs\n from " + DEF_NUM_LEDS + " to " + txt + "?. The workspace will be cleared if you do.");	
+		if (!result) return null;
+		else {
+			DEF_NUM_LEDS = newNum;
+			workspace.clear();
+            resetNumLEDs(DEF_NUM_LEDS);
+		}
+	}
+	return txt;
+};
+
+function numLEDOptions() {
+	var options = [];
+	for (var i = 1; i <= MAX_NUM_LEDS; i++) {
+		options.push([i.toString(), i.toString()]);
+	}
+	return options;
 }
 
 function defBlocksWithSize(DEF_NUM_LEDS) {
@@ -203,31 +236,37 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 		this.setColour(135);
 	 this.setTooltip("Code blocks placed here will run in sequence forever");
 	 this.setHelpUrl("");
-	 this.setDeletable(false);  // **THIS VALUE ADDED NOT GENERATED**
+	 this.setDeletable(false);
 	  }
 	};
 
 	Blockly.Blocks['run_on_start'] = {
 	  init: function() {
 		this.appendDummyInput()
-			.appendField("run once at start with LED brightness")
+			.appendField("run once at start");
+		this.appendDummyInput()
+			.appendField("brightness")
 			.appendField(new Blockly.FieldNumber(20, 0, 100, 1), "BRIGHTNESS")
-			.appendField("% using pin")
-			.appendField(new Blockly.FieldDropdown([["D1", "D1"], ["D2", "D2"], ["D3", "D3"], ["D4", "D4"], ["D5", "D5"], ["D6", "D6"], ["D7", "D7"], ["D8", "D8"], ["A1", "A1"], ["A2", "A2"], ["A3", "A3"], ["A4", "A4"], ["A5", "A5"], ["A6", "A6"], ["A7", "A7"], ["A8", "A8"]]), "PIN");
+			.appendField("%");
+		this.appendDummyInput()
+			.appendField("pin")
+			.appendField(new Blockly.FieldDropdown([["D1", "D1"], ["D2", "D2"], ["D3", "D3"], ["D4", "D4"], ["D5", "D5"], ["D6", "D6"], ["D7", "D7"], ["D8", "D8"], ["A1", "A1"], ["A2", "A2"], ["A3", "A3"], ["A4", "A4"], ["A5", "A5"], ["A6", "A6"], ["A7", "A7"], ["A8", "A8"]]), "PIN")
+			.appendField("#LEDs")
+			.appendField(new Blockly.FieldDropdown(numLEDOptions, validateNLEDs), "NLEDS");
 		this.appendStatementInput("STARTUP")
 			.setCheck(null);
 		this.setColour(135);
 	 this.setTooltip("Code blocks placed here will run once at the program startup");
 	 this.setHelpUrl("");
-	 this.setDeletable(false);  // **THIS VALUE ADDED NOT GENERATED**
-	  }
+	 this.setDeletable(false); 
+	  } 
 	};
 
 	Blockly.Blocks['shift_leds'] = {
 	  init: function() {
 		this.appendDummyInput()
 			.appendField("shift LED colors by")
-			.appendField(new Blockly.FieldNumber(1, -13, 13, 1), "SHIFT_AMT");
+			.appendField(new Blockly.FieldNumber(1, -DEF_NUM_LEDS, DEF_NUM_LEDS, 1), "SHIFT_AMT");
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
@@ -239,7 +278,7 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 
 	Blockly.Blocks['change_to'] = {
 	  init: function() {
-		this.appendDummyInput()
+		this.appendDummyInput('COLOR_FIELDS')
 			.appendField("change to");
 		this.appendValueInput("COLOR_LIST")
 			.setCheck(["color_led", "color_led_list", "Number"]);
@@ -251,36 +290,44 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 	 this.setHelpUrl("");
 	  }
 	};
+	
 
-
-
-	// Copy list block, and change a few things
+	// Copy list block, and change a few things to create a list of colors
 	Blockly.Blocks['variable_color_list'] = 
 	  Object.create(Blockly.Blocks['lists_create_with']);
 	  
 	(Blockly.Blocks['variable_color_list'])['init'] = function() {
 		this.setHelpUrl(Blockly.Msg.LISTS_CREATE_WITH_HELPURL);
-		this.setColour(65);
-		this.itemCount_ = 3;
-		this.setInputsInline(true);
+		this.setColour(330);
+		this.itemCount_ = 2;
+		this.setInputsInline(false);
 		this.updateShape_();
 		this.setOutput(true, 'color_array');
 		this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
 		this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_TOOLTIP);
 	  };
+	  
 	(Blockly.Blocks['variable_color_list'])['updateShape_'] = function() {
 		if (this.itemCount_ && this.getInput('EMPTY')) {
 		  this.removeInput('EMPTY');
 		} else if (!this.itemCount_ && !this.getInput('EMPTY')) {
 		  this.appendDummyInput('EMPTY')
-			  .appendField(Blockly.Msg.LISTS_CREATE_EMPTY_TITLE);
+			  .appendField('List of Colors');
 		}
-	 
-		var i;
-		for (i = 0; i < this.itemCount_; i++) {
+		
+		//TBD: Can't get shadow blocks to work correctly with list block
+		//var shadow_block_xml = '<xml><shadow type="single_color_led"><field name="C1">#ff0000</field></shadow></xml>';
+		//var shadow_block_dom = Blockly.Xml.textToDom(shadow_block_xml);
+		
+		// Add new inputs.
+		for (var i = 0; i < this.itemCount_; i++) {
 		  if (!this.getInput('ADD' + i)) {
-			var input = this.appendValueInput('ADD' + i)
-							 .setCheck(["color_led", "Number"]);	
+			var input = this.appendValueInput('ADD' + i);
+			//input.connection.setShadowDom(shadow_block_dom);
+			input.connection.setCheck(['color_led', 'number']);
+			if (i == 0) {
+			  input.appendField('Color List:');
+			}
 		  }
 		}
 		// Remove deleted inputs.
@@ -288,7 +335,8 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 		  this.removeInput('ADD' + i);
 		  i++;
 		}
-	  };	
+  };
+
 
 	Blockly.Blocks['twinkle'] = {
 	  init: function() {
@@ -302,7 +350,7 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 			.setCheck(["color_led", "Number", "color_led_list", "color_array"]);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
-		this.setNextStatement(true, null);
+		this.setNextStatement(true, null); 
 		this.setColour(65);
 	 this.setTooltip("makes leds flash in a random twinkle pattern using the specified colors");
 	 this.setHelpUrl("");
@@ -330,7 +378,7 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 
 	Blockly.Blocks['single_color_led'] = {
 	  init: function() {
-		this.appendDummyInput()
+		this.appendDummyInput()  
 			.appendField(new Blockly.FieldColour("#ff0000"), "C1");
 		this.setOutput(true, "color_led");
 		this.setColour(330);
@@ -339,8 +387,7 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 	  }
 	};
 
-
-
+ 
 	Blockly.Blocks['color_wheel_value'] = {
 	  init: function() {
 		this.appendDummyInput()
@@ -404,7 +451,6 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 	  
 	};
 
-
 	Blockly.Blocks['rainbow_led'] = {
 	  setFieldColors_:function() {
 		var startIndex = parseInt((this.getField("START_ANGLE")).getValue());
@@ -442,21 +488,6 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 	  }
 	};
 
-	Blockly.Blocks['set_brightness'] = {
-	  init: function() {
-		this.appendDummyInput()
-			.appendField("set brightness (1-100)")
-			.appendField(new Blockly.FieldNumber(30, 1, 100, 1), "BRIGHT_VAL");
-		this.setPreviousStatement(true, null);
-		this.setNextStatement(true, null);
-		this.setColour(330);
-	   this.setTooltip("set the brightness from 1-100. Only place this block in \"on start\"");
-	   this.setHelpUrl("");
-	   this.setDeletable(false);  // **ADDED NOT GENERATED**
-	  }
-	};
-
-
 	Blockly.Blocks['rgb_color'] = {
 	  setRGBColor_:function() {
 		  var r = parseInt((this.getField("R_VAL")).getValue());
@@ -493,12 +524,26 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 			.appendField("at speed")
 			.appendField(new Blockly.FieldDropdown([["slow","SPEED_SLOW"], ["medium","SPEED_MEDIUM"], ["fast","SPEED_FAST"]]), "SPEED")
 			.appendField("from")
-			.appendField(new Blockly.FieldDropdown([["low to high","LOW_TO_HIGH"], ["high to low","HIGH_TO_LOW"]]), "DIRECTION")
+			.appendField(new Blockly.FieldDropdown([["low to high","LOW_TO_HIGH"], ["high to low","HIGH_TO_LOW"]]), "DIRECTION");
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
 		this.setColour(65);
 	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  }
+	};
+	
+	Blockly.Blocks['repeat_pattern'] = {
+	  init: function() {
+		this.appendDummyInput()
+			.appendField("fill LED pattern");
+		this.appendValueInput("PATTERN")
+			.setCheck("color_array");
+		this.setInputsInline(true);
+		this.setOutput(true, "color_led_list");
+		this.setColour(330);
+	 this.setTooltip("Fills LEDs by repeating specified pattern");
 	 this.setHelpUrl("");
 	  }
 	};
@@ -520,9 +565,9 @@ function $_GET(param) {
 	}
 	return vars;
 }
-var DEF_NUM_LEDS = $_GET("NUM_LEDS");
-if (DEF_NUM_LEDS === null) DEF_NUM_LEDS = 14;
-else if (DEF_NUM_LEDS > 24) DEF_NUM_LEDS = 24;
 
+ var DEF_NUM_LEDS = $_GET("NUM_LEDS");
+ if (DEF_NUM_LEDS === null) DEF_NUM_LEDS = DEFAULT_NUM_LEDS;
+ else if (DEF_NUM_LEDS > MAX_NUM_LEDS) DEF_NUM_LEDS = MAX_NUM_LEDS;
 // Creating code blocks
 defBlocksWithSize(DEF_NUM_LEDS);
