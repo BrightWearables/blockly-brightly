@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+      <meta http-equiv="content-type" content="text/html;
+        charset=windows-1252"><head>
+          <title>BRIGHTLY FAQ</title>
+          <style> 
+			html, body { 
+				font-family: sans-serif; 
+				} 
+			.parent{
+				position:relative; 
+				width:100%; 
+				height:100%; 
+				display: block;
+				text-align:center; 
+				}
+			body{ 
+				margin:0; 
+				border: 0; 
+				padding: 0px; 
+			} 
+			#header_div{
+				padding-top:10px; 
+				padding-bottom:10px; 
+				background-color: 
+				lightblue; 
+				} 
+			#body_div {
+				padding-left: 30px; 
+				padding-right: 30px;
+				}  
+			#links_div{ 
+				position:
+				absolute; width: 100%; 
+			} 
+			</style> 
+		</head>
+
+  <body>
+    <div id="container" class="parent"> 
+	<a href="../index.html">
+        <div id="header_div">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 599.99998
+            80.706224" height="50.71"><g
+              transform="translate(806.64-276.98)"><text x="-810.92"
+                y="347.01" font-family="'Berlin Sans FB'"
+                word-spacing="0" line-height="1.25" letter-spacing="0"
+                font-size="84.15"><tspan x="-810.92" y="347.01"
+                  stroke-width=".265">Br ght Wearables</tspan></text><g
+                stroke-width=".387"><path transform="translate(-806.64 276.98)" d="m81.88 27.04v9.969c-.571.174-.963.432-.963.736v3.227c0 .305.392.564.963.738v30.586h3.076v-30.621c.503-.174.834-.42.834-.703v-3.227c0-.283-.331-.529-.834-.703v-10h-3.076m7.943.1v9.885c-.508.174-.85.427-.85.721v3.227c0 .294.342.546.85.721v30.705h2.916v-30.705c.508-.174.85-.427.85-.721v-3.227c0-.294-.342-.546-.85-.721v-9.885h-2.916" fill="#58595b"></path><path d="m-722.4 279.36c0 0 7.493 3.327 6.735 13.01 0 0 3.337-10.631-6.735-13.01zm2.305-2.376c-5.066 0-9.16 3.377-9.16 7.555v15.873l-1.305.611v3l1.85.324h17.809l1.334-.324v-3l-1.334-.625v-15.859c0-2.101-1-4-2.701-5.328-1.669-1.376-3.974-2.227-6.492-2.227z"fill="#f00" fill-rule="evenodd" stroke="#f00"></path></g></g></svg>
+       </a>
+	   </div>
+	  <div id="body_div">
+	  <a href="index.html">
+      <h1 align="center"><span style="color: #ff3232">B</span><span
+          style="color: #ff8432">R</span><span style="color: #ffee32">I</span><span
+          style="color: #05f8ff">G</span><span style="color: #46e119">H</span><span
+          style="color: #328eff">T</span><span style="color: #9217d3">L</span><span
+          style="color: #ff44c2">Y</span></a> FAQ</h1>
+	  
+      <h3 align="left">About Brightly</h3>
+      <h3 align="left"> </h3>
+      <div align="left">
+        <ul>
+          <li><a href="#what_is_brightly">What is BRIGHTLY?</a></li>
+          <li><a href="#why_is_brightly_useful">What makes BRIGHTLY
+              useful?</a></li>
+          <li><a href="#what_do_i_need">What will I need to run a
+              BRIGHTLY generated program on a microcontroller?</a><br>
+          </li>
+          <li><a href="#why_did_you_create_brightly">Why did you create
+              BRIGHTLY?</a><br>
+          </li>
+          <li><a href="#can_brightly_program_elec">Can BRIGHTLY program
+              electronic accessories other than LEDs?</a><br>
+          </li>
+          <li><a href="#what_microcontrollers">What microcontrollers
+              does BRIGHTLY work on?</a></li>
+          <li><a href="#how_can_i_find_out_more">How can I find out more
+              about CircuitPython?</a></li>
+          <li><a href="#found_a_bug">I found a bug. Whom should I notify</a>?<br>
+          </li>
+        </ul>
+      </div>
+      <h3 align="left">The BRIGHTLY code editor<br>
+      </h3>
+      <div align="left">
+        <ul>
+          <li><a href="#how_do_i_use_the_code_editor">How do I use the
+              code editor?</a></li>
+          <li><a href="#how_do_i_download_cp_code">How do I get
+              CircuitPython code from my BRIGHTLY block program?</a></li>
+          <li><a href="#can_i_save_code_blocks">Can I save my BRIGHTLY
+              program?</a></li>
+          <li><a href="#how_do_i_edit_a_program">How do I edit a
+              BRIGHTLY program I previously created?</a><br>
+          </li>
+          <li><a href="#can_i_edit_circuitpython">Can I use BRIGHTLY to
+              edit CircuitPython code directly?</a></li>
+          <li><a href="#why_14_leds">Why does the BRIGHTLY code editor
+              default to using 14 LEDs?</a><br>
+          </li>
+        </ul>
+      </div>
+      <h3 align="left">Using BRIGHTLY CircuitPython code with LEDs<br>
+      </h3>
+      <div align="left">
+        <ul>
+          <li><a href="#what_kind_of_leds">What kind of LEDs can I
+              program with BRIGHTLY?</a></li>
+          <li><a href="#how_many_leds_possible">Does BRIGHTLY have a
+              maximum number of LEDs?</a><br>
+          </li>
+          <li><a href="#how_to_run_on_microcontroller">How do I make my
+              BRIGHTLY CircuitPython program run on my microcontroller?</a><br>
+          </li>
+          <li><a href="#what_if_rgbw_leds">What if I have RGBW LEDs
+              instead of RGB LEDs. Will they work?</a></li>
+        </ul>
+      </div>
+      <h3 align="left">***About***</h3>
+      <p align="left"><a name="what_is_brightly"></a><b>What is
+          BRIGHTLY?</b><br>
+        Brightly is a CircuitPython code generator for programmable LEDs
+        (NeoPixels). It is based on <a
+          href="https://developers.google.com/blockly/">Blockly,</a> an
+        open-source, drag and drop code editor. BRIGHTLY lets you drag
+        and drop simple code blocks to generate a CircuitPython program
+        that shows different colors, patterns and animations on an LED
+        string. This is not a professional product. It is a project I
+        created to help with my programming workshops, which I decided
+        to share, hoping others will find it useful. <a
+          href="disclaimer">Standard disclaimer here</a>.<br>
+      </p>
+      <p align="left"><a name="why_is_brightly_useful"></a><b>What makes
+          BRIGHTLY useful?</b><br>
+        Brightly lets you generate interesting dynamic patterns for LED
+        strips with a minimum amount of work. It is a particularly
+        useful tool for a non programmer. When coding in Python, correct
+        formatting is critical - an errant space or missing colon
+        crashes a program. Using BRIGHTLY to generate the CircuitPython
+        code avoids formatting pitfalls, and is simply much faster than
+        writing code manually.<br>
+      </p>
+      <p align="left"><a name="what_do_i_need"></a><b>What will I need
+          to run a BRIGHTLY generated program on a microcontroller?<br>
+        </b>You'll need a microcontroller which runs CircuitPython that
+        is connected to a strip of Neopixels on one pin. You will need
+        the Adafruit CircuitPython NeoPixel library from the <a
+href="https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases">CircuitPython
+          Bundle</a>. You will also need to download the <a
+          href="https://github.com/BrightWearables/brightly">BRIGHTLY
+          CircuitPython library</a> and copy it to your board. See the <a
+          href="instructions.html">BRIGHTLY Instructions</a> page for
+        details on what to do with the libraries to make sure your code
+        will run.<br>
+      </p>
+      <p align="left"><a name="why_did_you_create_brightly"></a><b>Why
+          did you create BRIGHTLY?</b><br>
+        I wanted to run a programmable LED wearables workshop for
+        non-programmers, and let the participants change the colors and
+        patterns on their creations. Some of the more advanced
+        easy-to-use microcontroller boards (<a
+          href="http://microbit.org/">BBC micro:bit</a>, <a
+          href="https://www.adafruit.com/product/3333">Adafruit
+          CircuitPlayground Express</a>) have a powerful drag-and-drop
+        programming interface through <a href="https://makecode.com/">MS
+          MakeCode</a>, which works well for novice programmers.
+        However,&nbsp; the cheaper CircuitPython controllers (e.g.
+        Adafruit's <a href="https://www.adafruit.com/product/3501">Gemma
+
+          M0</a> and <a href="https://www.adafruit.com/product/3500">Trinket
+
+          M0</a>) which are ideal for workshops, have no such interface,
+        so I thought I'd create one.<br>
+      </p>
+      <p align="left"><a name="can_brightly_program_elec"></a><b>Can
+          BRIGHTLY program electronic accessories other than LEDs?</b><br>
+        No. The BRIGHTLY code generator is strictly for creating LED
+        pattens and animations. You can run the BRIGTHLY functions along
+        with other CircuitPython libraries that control sensors and
+        elctronics, but you will need to modify Brightly's generated
+        code to do so.<br>
+      </p>
+      <p align="left"><b><a name="what_microcontrollers"></a>What
+          microcontrollers does BRIGHTLY work on?</b><br>
+        So far, I have tested it on Adafruit's Gemma M0, Trinket M0 and
+        CircuitPlayground Express. It should run on any
+        CircuitPython-enabled microcontroller that can use <a
+href="https://learn.adafruit.com/circuitpython-essentials/circuitpython-neopixel">Adafruit's
+          Neopixel library</a> to connect to programmable LED strings.<br>
+      </p>
+      <p align="left"><a name="how_can_i_find_out_more"></a><b>How can I
+          find out more about CircuitPython?</b><br>
+        A good place to start is this article: <a
+href="https://learn.adafruit.com/welcome-to-circuitpython/what-is-circuitpython">https://learn.adafruit.com/welcome-to-circuitpython/what-is-circuitpython</a><br>
+      </p>
+      <p align="left"><b><a name="found_a_bug"></a>I found a bug. Whom
+          should I notify?</b><br>
+        Please send bug reports to <a
+          href="mailto:%20brightly@brightwearables.com">brightly@brightwearables.com</a>.I
+        can't guarantee a timely fix, but will try to maintain the code
+        editor. If you would like to try to fix the problem yourself (or
+        make an improvement), the source code for the BRIGHTLY code
+        generator is here: <a
+          href="https://github.com/BrightWearables/blockly-brightly">https://github.com/BrightWearables/blockly-brightly</a><br>
+        <br>
+      </p>
+      <h3 align="left">***The BRIGHTLY code editor***</h3>
+      <p align="left"><a name="how_do_i_use_the_code_editor"></a><b>How
+          do I use the code editor?</b><br>
+        BRIGHTLY will be familliar to anyone who has done drag and drop
+        programming. The code blocks, which represent LED colors,
+        patterns or functions, are categorized into different menus on
+        the left side of the window, called the toolbox. Just click on a
+        category to view its blocks. To create code, drag the blocks
+        from the menu into the workspace, and place them within one of
+        the existing green blocks ("run once at start" or "run forever")
+        to add them to your program. It should be intuitve that function
+        blocks placed inside the "run once" block will run one time when
+        the program starts (i.e. the microcontroller is powered on or
+        restarted), and function blocks placed inside the "run forever"
+        block will run over and over again in a loop. You will probably
+        want to put most of your program in the "run forever" block.</p>
+      <p align="left"> <img src="images/CodeGeneratorBig.png" alt="Brightly Code Generator" width="586" height="443" border="1"><br>
+        <br>
+      </p>
+      <p align="left"><a name="how_do_i_download_cp_code"></a><b>How do
+          I get CircuitPython code from my BRIGHTLY block program?</b><br>
+        Once you have written your program, click the purple "Download
+        Code" link, and a file named "main.py" containing CircuitPython
+        code will download to your computer<b>.</b></p>
+      <p align="left"> <b><a name="can_i_save_code_blocks"></a>Can I
+          save my BRIGHTLY program?<br>
+        </b>Yes, if you want to save your BRIGHTLY code blocks, enter a
+        file name in the "Save Blocks to File" field, and click "Save as
+        XML". This will download an XML file to your computer which
+        contains instructions to generate the BRIGHTLY program in the
+        BRIGHTLY code editor. The XML file is NOT a CircuitPython
+        program, and will not run on a microcontroller.<br>
+      </p>
+      <p align="left"><a name="how_do_i_edit_a_program"></a><b>How do I
+          edit a BRIGHTLY program I previously created?</b><br>
+        As long as you saved your program as an XML file, you can load
+        it into the BRIGHTLY editor by clicking the "Choose File" link
+        at the top of the window. BRIGHTLY cannot read CircuitPython
+        files, only XML files generated from the BRIGHTLY code
+        generator.<br>
+      </p>
+      <p align="left"><a name="can_i_edit_circuitpython"></a><b>Can I
+          use BRIGHTLY to edit CircuitPython code directly?</b><br>
+        No. BRIGHTLY can only edit code blocks saved in XML files.<br>
+      </p>
+      <p align="left"><b><a name="why_14_leds"></a>Why does the BRIGHTLY
+          code editor default to using 14 LEDs?</b><br>
+        Because I developed it for a workshop making a programmable LED
+        headband that has (surprise!) 14 LEDs (<a
+          href="https://www.youtube.com/watch?v=JadMgPY26nA">https://www.youtube.com/watch?v=JadMgPY26nA</a>).
+        However, you can easily change the number of LEDs by clicking
+        the dropdown menu in the "run once at start" code block.<br>
+        <br>
+      </p>
+      <h3 align="left">***Using BRIGHTLY CircuitPython code with LEDs***</h3>
+      <p align="left"><a name="what_kind_of_leds"></a><b>What kind of
+          LEDs can I program with BRIGHTLY?</b><br>
+        BRIGHTLY is designed for single-wire control RGB WS2812-type LED
+        strips and strings - (aka NeoPixels), because it depends on
+        Adafruit's CircuitPython NeoPixel library. These LEDs are easily
+        available from a wide variety of sources. BRIGHTLY will not work
+        with APA102-type LED strips (also known as Dotstar).<br>
+      </p>
+      <p align="left"><a name="how_many_leds_possible"></a><b>Does
+          BRIGHTLY have a maximum number of LEDs?<br>
+        </b>Currently the number of LEDs in the BRIGHTLY code editor is
+        capped at 36 because some code blocks expand as the number of
+        LEDs grows, and it becomes awkward to drag and drop them inside
+        the workspace. If I find a way to make the code blocks for large
+        number of LEDs less unwieldy, then this will change. However,
+        another limit to the number of LEDs comes from memory
+        limitations on CircuitPython boards. CircuitPython itself
+        requires a lot of memory to run and on smaller boards (Gemma M0
+        and Trinket M0) this can limit code size and available memory.
+        On boards with more memory, this is not nearly as much of a
+        problem. I have encountered no problems creating fairly large
+        programs for strings of 14 LEDs. A new generation of <a
+href="https://blog.adafruit.com/2017/08/01/the-atsamd51-is-here-adafruit-microchipmakes-atsamd51/">CircuitPython
+          boards based on the ATSAMD51 chip</a> will have more memory,
+        so hardware will probably solve this problem in the future.<br>
+      </p>
+      <p align="left"><a name="how_to_run_on_microcontroller"></a><b>How
+          do I make my BRIGHTLY CircuitPython program run on my
+          microcontroller?</b><br>
+        Please see the <a href="instructions.html">Instructions page</a>
+        for details<br>
+      </p>
+      <p align="left"><a name="what_if_rgbw_leds"></a><b>What if I have
+          RGBW LEDs instead of RGB LEDs. Will they work?<br>
+        </b>Yes. There is no place to change the type of LED in BRIGHTLY
+        itself, but if you open up the "main.py" file and find the
+        function call which creates the NeoPixel strip:</p>
+      <p align="left">&nbsp;&nbsp;<i>&nbsp; strip =
+          neopixel.NeoPixel(board.D1, numpix, brightness=0.2,
+          auto_write=False, pixel_order=None)</i></p>
+      <p align="left">you can change the code to work with different
+        kinds of LEDs by changing the word "None" to one of (RGB, GRB,
+        RGBW, GRBW) - whichever maches your strip.<br>
+      </p>
+      <p align="left"><b><a name="disclaimer"></a>DISCLAIMER<br>
+        </b></p>
+      <p align="left"><b>THIS SOFTWARE IS PROVIDED "AS IS" AND ANY
+          EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+          TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+          A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+          AUTHOR OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+          INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+          (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+          GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+          INTERRUPTION)</b></p>
+      <p align="left"><b>HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+          WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+          NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+          THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+          DAMAGE.</b></p>
+      <p><a href="#top">(back to top)</a>
+    </div>
+  </body>
+ </meta> 
+</html>

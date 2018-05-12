@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
+    <title>Brightly Instructions</title>
+    <meta name="author" content="Debra Ansell">
+    <meta name="description" content="Instructions for using the
+      BRIGHTLY code generator">
+    <style>
+      html, body {
+        font-family: sans-serif;
+      }
+   .parent{
+	position:relative; width:100%; height:100%; display: block;
+	margin-left: 0; margin-right: 0;text-align:center; padding: 0;}
+	body{ margin:0; border: 0; padding-left: 0; padding-right: 0; } 
+	#header_div{
+	padding:0; padding-top:10px; padding-bottom:10px;
+	background-color: lightblue; } 
+	#body_div{
+		padding-left: 30px; 
+		padding-right: 30px;
+		text-align:left;
+	}
+	#links_div{ position: absolute;
+	width: 100%; }
+
+  </style>
+  </head>
+  <body>
+    <div id="container" class="parent"> <a href="../index.html">
+        <div id="header_div">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 599.99998
+            80.706224" height="50.71"><g
+              transform="translate(806.64-276.98)"><text x="-810.92"
+                y="347.01" font-family="'Berlin Sans FB'"
+                word-spacing="0" line-height="1.25" letter-spacing="0"
+                font-size="84.15"><tspan x="-810.92" y="347.01"
+                  stroke-width=".265">Br ght Wearables</tspan></text><g
+                stroke-width=".387"><path transform="translate(-806.64
+                  276.98)" d="m81.88
+                  27.04v9.969c-.571.174-.963.432-.963.736v3.227c0
+.305.392.564.963.738v30.586h3.076v-30.621c.503-.174.834-.42.834-.703v-3.227c0-.283-.331-.529-.834-.703v-10h-3.076m7.943.1v9.885c-.508.174-.85.427-.85.721v3.227c0
+.294.342.546.85.721v30.705h2.916v-30.705c.508-.174.85-.427.85-.721v-3.227c0-.294-.342-.546-.85-.721v-9.885h-2.916"
+                  fill="#58595b"></path><path d="m-722.4 279.36c0 0
+                  7.493 3.327 6.735 13.01 0 0
+                  3.337-10.631-6.735-13.01zm2.305-2.376c-5.066 0-9.16
+                  3.377-9.16
+7.555v15.873l-1.305.611v3l1.85.324h17.809l1.334-.324v-3l-1.334-.625v-15.859c0-2.101-1-4-2.701-5.328-1.669-1.376-3.974-2.227-6.492-2.227z"
+                  fill="#f00" fill-rule="evenodd" stroke="#f00"></path></g></g></svg>
+
+        </div>
+      </a>
+	  <div id="body_div">
+      <h1 align="center">
+	    <a href="index.html"><span style="color: #ff3232">B</span><span
+          style="color: #ff8432">R</span><span style="color: #ffee32">I</span><span
+          style="color: #05f8ff">G</span><span style="color: #46e119">H</span><span
+          style="color: #328eff">T</span><span style="color: #9217d3">L</span><span
+          style="color: #ff44c2">Y</span></a> INSTRUCTIONS</h1>
+
+        <p>How to make colorful and dynamic light patterns using:</p>
+
+        <ul>
+          <li>a CircuitPython enabled micro-controller</li>
+          <li>programmable LEDs</li>
+          <li>the BRIGHTLY code generator</li>
+        </ul>
+
+      <h3 align="left">Hardware:</h3>
+      <p>Connect your programmable LEDs to your
+        CircuitPython enabled microcontroller - noting which pin carries
+        signal to the LEDs. The connection method depends on which
+        microcontroller you have, if you have an LED strip, sewable
+        NeoPixels or some other configuration.</p>
+ 
+      <h3 align="left">Software:</h3>
+      <p>These instructions assume that you already have CircuitPython installed. if not, see the Adafruit tutorial here: <a href="https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpy">https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpy</a>
+          If you are using an older version of CircuitPython, you may
+          need a newer version to be compatible with the BRIGHTLY
+          library. The <a
+            href="https://github.com/BrightWearables/brightly">BRIGHTLY
+            library GitHub page</a> will tell you which version you
+          need.<br>
+        </these></p>
+      <p>Download the BRIGHTLY library, <i><b>brightly.mpy</b></i>
+        from the <a href="https://github.com/BrightWearables/brightly">BRIGHTLY
+          GitHub page</a>. Connect your microcontroller to your
+        computer, and after a moment, it will show up as a drive. Below
+        is a picture of a Gemma M0 connected to my Windows 10 computer.
+        Note that I've deleted some of the files that ship by default
+        with the Gemma M0, such as the <i><b>Windows 7 Driver</b></i> folder
+        and <i><b>Readme.txt</b></i> to save space.<br>
+      </p><img src="images/InstructionsImg1.png" alt="CircuitPython Drive" width="600" <br>
+      </p>Drag the <i><b>brightly.mpy</b></i> library into
+            the <i><b>lib</b></i> folder:<br>
+            <br>
+            <img src="images/InstructionsImg2.png" alt="CircuitPython lib folder" width="600"><br>
+          <br>
+       
+             The only libraries required to run a
+              BRIGHTLY program are <i><b>brightly.mpy</b></i> and <i><b>neopixel.mpy</b></i> . If you have edited the BRIGHTLY-generated
+              program to add functionality, you may require other
+              libraries. Go to the BRIGHTLY code generator and create
+              your program. Be sure that the pin number and #LEDs in the
+              "run once on start" code block match your configuration.
+              When it's complete, download it by clicking the "Download Code" button.
+            <br>
+            <br>
+            <b>Download Code</b><br>
+              <img src="images/InstructionsImg3.png" alt="Download CircuitPython code" width="600"><br><BR>
+              The downloaded CircuitPython code should
+                be called <i><b>main.py</b></i>, but if you already have a
+                file with the same name, it may download with a name
+                like <i><b>main(1).py</b></i> (or <i><b>main(57).py</b></i> if, like
+                me, you don't clear out your Downloads folder often).
+                Drag your downloaded CircuitPython file onto the
+                MicroController drive.<br>
+                <img src="images/InstructionsImg3.png" alt="Copy code to CircuitPython drive" width="600">
+              <br>
+              If you need to, delete the existing <i><b>main.py</b></i> file, and rename the file you copied over to "<i><b>main.py</b></i>". Your code should start to run shortly thereafter</div>
+                </div>
+    </div>
+  </body>
+</html>
