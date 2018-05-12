@@ -11,15 +11,18 @@ function generateWorkspaceXML(nLeds) {
 	return workspaceXML;
 };  
 
+MAX_BLOCK_LENGTH = 20;
 function generateToolboxXML(nLeds) {
 	var toolbox = '<xml>\n';
 	toolbox += '  <category name="Colors/Patterns" colour="#a55b6d">\n';
-	toolbox += '    <block type="color_led">\n';
-	for (var i = 0; i < nLeds; i++) {
-		var fieldDef = '      <field name="C' + (i+1).toString() + '">' + defaultColorFromList(i) + '</field>\n';
-		toolbox += fieldDef;
+	if (nLeds < MAX_BLOCK_LENGTH) {
+		toolbox += '    <block type="color_led">\n';
+		for (var i = 0; i < nLeds; i++) {
+			var fieldDef = '      <field name="C' + (i+1).toString() + '">' + defaultColorFromList(i) + '</field>\n';
+			toolbox += fieldDef;
+		}
+		toolbox += '   </block>\n';
 	}
-	toolbox += '   </block>\n';
 	toolbox += '    <block type="single_color_led">\n';
 	toolbox += '      <field name="C1">#ff0000</field>\n';
 	toolbox += '    </block>\n';
@@ -44,24 +47,28 @@ function generateToolboxXML(nLeds) {
 	toolbox += '	  </block>\n';
 	toolbox += '	  </value>\n';
 	toolbox += '    </block>\n';
-	toolbox += '    <block type="color_led_expanded"></block>\n';
-	toolbox += '    <block type="change_to">\n';
-	toolbox += '      <value name="COLOR_LIST">\n';
-	toolbox += '        <shadow type="single_color_led">\n';
-	toolbox += '          <field name="C1">#000000</field>\n';
-	toolbox += '        </shadow>\n';
-	toolbox += '      </value>\n';
-	toolbox += '    </block>\n';
-	toolbox += '    <block type="change_to">\n';
-	toolbox += '      <value name="COLOR_LIST">\n';
-	toolbox += '        <block type="color_led">\n';
-	for (var i = 0; i < nLeds; i++) {
-		var fieldDef = '      <field name="C' + (i+1).toString() + '">' + defaultColorFromList(i) + '</field>\n';
-		toolbox += fieldDef;
+    if (nLeds < MAX_BLOCK_LENGTH) {
+		toolbox += '    <block type="color_led_expanded"></block>\n';
+		toolbox += '    <block type="change_to">\n';
+		toolbox += '      <value name="COLOR_LIST">\n';
+		toolbox += '        <shadow type="single_color_led">\n';
+		toolbox += '          <field name="C1">#000000</field>\n';
+		toolbox += '        </shadow>\n';
+		toolbox += '      </value>\n';
+		toolbox += '    </block>\n';
 	}
-	toolbox += '        </block>\n';
-	toolbox += '      </value>\n';
-	toolbox += '    </block>\n';
+	if (nLeds < MAX_BLOCK_LENGTH) {
+		toolbox += '    <block type="change_to">\n';
+		toolbox += '      <value name="COLOR_LIST">\n';
+		toolbox += '        <block type="color_led">\n';
+		for (var i = 0; i < nLeds; i++) {
+			var fieldDef = '      <field name="C' + (i+1).toString() + '">' + defaultColorFromList(i) + '</field>\n';
+			toolbox += fieldDef;
+		}
+		toolbox += '        </block>\n';
+		toolbox += '      </value>\n';
+		toolbox += '    </block>\n';
+	}
 	toolbox += '    <block type="change_to"></block>\n';
 	toolbox += '    <block type="set_led_at">\n';
 	toolbox += '      <field name="LED_INDEX">1</field>\n';
@@ -86,12 +93,18 @@ function generateToolboxXML(nLeds) {
 	toolbox += '    <block type="smooth_change_to">\n';
 	toolbox += '      <field name="speed">SLOW</field>\n';
 	toolbox += '      <value name="COLOR_LIST">\n';
-	toolbox += '        <shadow type="color_led">\n';
-	for (var i = 0; i < nLeds; i++) {
-		var fieldDef = '      <field name="C' + (i+1).toString() + '">' + defaultColorFromList(i) + '</field>\n';
-		toolbox += fieldDef;
+    if (nLeds < MAX_BLOCK_LENGTH) {
+		toolbox += '        <shadow type="color_led">\n';
+		for (var i = 0; i < nLeds; i++) {
+			var fieldDef = '      <field name="C' + (i+1).toString() + '">' + defaultColorFromList(i) + '</field>\n';
+			toolbox += fieldDef;
+		}
+		toolbox += '        </shadow>\n';
+	} else {
+		toolbox += '        <shadow type="single_color_led">\n'
+		toolbox += '          <field name="C1">#cc33cc</field>\n';
+		toolbox += '	    </shadow>\n';
 	}
-	toolbox += '        </shadow>\n';
 	toolbox += '      </value>\n';
 	toolbox += '    </block>\n';
 	toolbox += '    <block type="wipe_color">\n';
