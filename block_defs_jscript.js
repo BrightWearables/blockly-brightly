@@ -534,6 +534,44 @@ function defBlocksWithSize(DEF_NUM_LEDS) {
 	  }
 	};
 	
+	Blockly.Blocks['scan'] = {
+	  init: function() {
+		this.appendDummyInput()
+			.appendField("Larson scan over")
+			.appendField(new Blockly.FieldNumber(3, 3, 128, 1), "LEN")
+			.appendField("LEDs with color")
+			.appendField(new Blockly.FieldColour("#ff0000"), "COL1")
+			.appendField("at speed")
+			.appendField(new Blockly.FieldDropdown([["slow","SPEED_SLOW"], ["medium","SPEED_MEDIUM"], ["fast","SPEED_FAST"]]), "SPEED")
+			.appendField("for")
+			.appendField(new Blockly.FieldNumber(5, 1, 30, 1), "DURATION")
+			.appendField("seconds");
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(65);
+	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  }
+	};
+	
+	Blockly.Blocks['theater_chase'] = {
+	  init: function() {
+		this.appendDummyInput()
+			.appendField("theater chase color")
+			.appendField(new Blockly.FieldColour("#ff0000"), "COL")
+			.appendField("at speed")
+			.appendField(new Blockly.FieldDropdown([["slow","SPEED_SLOW"], ["medium","SPEED_MEDIUM"], ["fast","SPEED_FAST"]]), "SPEED")
+			.appendField("for")
+			.appendField(new Blockly.FieldNumber(5, 0, 60, 1), "DURATION")
+			.appendField("seconds");
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(65);
+	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  }
+	};
+	
 	Blockly.Blocks['repeat_pattern'] = {
 	  init: function() {
 		this.appendDummyInput()

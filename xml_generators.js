@@ -143,6 +143,17 @@ function generateToolboxXML(nLeds) {
 	toolbox += '        </shadow>';
 	toolbox += '      </value>';
 	toolbox += '    </block>';
+	toolbox += '	<block type="scan">';
+    toolbox += '		<field name="LEN">24</field>';
+    toolbox += '		<field name="COL1">#ff0000</field>';
+    toolbox += '		<field name="SPEED">SPEED_FAST</field>';
+    toolbox += '		<field name="DURATION">5</field>';
+	toolbox += '	</block>';
+	toolbox += '	<block type="theater_chase">';
+    toolbox += '		<field name="COL">#ff0000</field>';
+    toolbox += '		<field name="SPEED">SPEED_SLOW</field>';
+    toolbox += '		<field name="DURATION">5</field>';
+	toolbox += '	</block>';
 	toolbox += '  </category>';
 	toolbox += '  <category name="Loops" colour="#5ba55b">';
 	toolbox += '    <block type="controls_repeat_ext">';

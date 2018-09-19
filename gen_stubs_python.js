@@ -259,6 +259,37 @@ Blockly.Python['morse'] = function(block) {
   return code;
 };
 
+Blockly.Python['scan'] = function(block) {
+  var number_len = block.getFieldValue('LEN');
+  var colour_col1 = block.getFieldValue('COL1');
+  var dropdown_speed = block.getFieldValue('SPEED');
+  
+  var delay;
+  if (dropdown_speed == "SPEED_SLOW") delay = ".1";
+  else if (dropdown_speed == "SPEED_MEDIUM") delay = ".06";
+  else if (dropdown_speed == "SPEED_FAST") delay = ".03";
+  
+  var number_duration = block.getFieldValue('DURATION');
+  // TODO: Assemble Python into code variable.
+  var code = classPrefix + 'scan(' + hexToRGB(colour_col1) + ',' + number_len + ',' + delay + ',' + number_duration + ')\n';
+  return code;
+};
+
+Blockly.Python['theater_chase'] = function(block) {
+  var colour_col = block.getFieldValue('COL');
+  var dropdown_speed = block.getFieldValue('SPEED');
+  var number_duration = block.getFieldValue('DURATION');
+
+  var delay;
+  if (dropdown_speed == "SPEED_SLOW") delay = ".06";
+  else if (dropdown_speed == "SPEED_MEDIUM") delay = ".04";
+  else if (dropdown_speed == "SPEED_FAST") delay = ".02";
+  
+  var number_duration = block.getFieldValue('DURATION');
+  var code = classPrefix + 'theater_chase(' + hexToRGB(colour_col) + ',' + delay + ',' + number_duration + ')\n';
+  return code;
+};
+
 Blockly.Python['variable_color_list'] = function(block) {
   code = Blockly.Python['lists_create_with'](block);
   return code;
